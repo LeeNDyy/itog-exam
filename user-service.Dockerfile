@@ -1,9 +1,7 @@
-FROM alpine:latest
+FROM alpine:3.21.3
 
-WORKDIR /app
-COPY ./bin/math-service ./  
+WORKDIR /service
 
-RUN chmod +x math-service
+COPY ./bin/user-service .
 
-EXPOSE 80
-CMD ["./math-service"]
+ENTRYPOINT [ "./user-service" ]

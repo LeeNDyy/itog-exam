@@ -1,9 +1,7 @@
-FROM alpine:latest
+FROM alpine:3.21.3
 
-WORKDIR /app
-COPY ./bin/core-service ./  
+WORKDIR /service
 
-RUN chmod +x core-service
+COPY ./bin/core-service .
 
-EXPOSE 80
-CMD ["./core-service"] 
+ENTRYPOINT [ "./core-service" ]

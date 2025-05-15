@@ -18,13 +18,10 @@ services:
       - "80"
 
   loadbalancer:
-    build:
-      context: .
-      dockerfile: nginx.Dockerfile
+    image: nginx:stable-alpine3.20
     ports:
       - 8080:80
     volumes:
-      - ./frontend:/usr/share/nginx/html/frontend
-    depends_on:
-      - core-service
-      - user-service
+      - ./templates:/etc/nginx/templates
+      - ./frontend:/frontend
+    
