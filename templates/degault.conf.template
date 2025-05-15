@@ -3,7 +3,7 @@ upstream core-upstream {
 }
 
 upstream user-upstream {
-   server date-service:80;
+   server user-service:80;
 }
 
 
@@ -11,15 +11,15 @@ map $http_x_rpc_method $app_route {
    hostnames;
    
    default core-upstream;
-   date.*  date-upstream;
+   user.*  user-upstream;
 }
 
 server {
    listen 80;
 
-    location / {
-        root /frontend;
-        index index.html;
+   location / {
+      root /frontend;
+      index index.html;
     }
 
    location /rpc {
