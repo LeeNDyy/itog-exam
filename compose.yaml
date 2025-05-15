@@ -1,0 +1,45 @@
+services:
+  core-service:
+    build:
+      context: .
+      dockerfile: ./core-service.Dockerfile
+    restart: unless-stopped
+    expose:
+      - "80"
+  
+
+  user-service:
+    build:
+      context: .
+      dockerfile: ./user-service.Dockerfile
+    restart: unless-stopped
+    expose:
+      - "80"
+
+  loadbalancer:
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    ports:
+      - 8080:80
+    volumes:
+      - ./frontend:/usr/share/nginx/html/frontend
+    depends_on:
+      - core-service
+      - user-service
+
+  database:
+    image: postgres:17.4-alpine3.21
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - 127.0.0.1:5439:5432
+    volumes:
+      - database-data:/var/lib/postgresql/data
+      - ./migration:/migration
+
+volumes:
+  database-data:
