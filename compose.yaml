@@ -23,5 +23,8 @@ services:
       - 8080:80
     volumes:
       - ./templates:/etc/nginx/templates
-      - ./frontend:/frontend
+      - ./frontend:/var/www/frontend
+    depends_on:
+      - core-service
+      - user-service
     
